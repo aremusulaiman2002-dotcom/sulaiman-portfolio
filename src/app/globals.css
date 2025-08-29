@@ -1,0 +1,383 @@
+/* src/app/globals.css */
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+  --color-purple-400: #a78bfa;
+  --color-purple-500: #8b5cf6;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  /* Custom colors */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  
+  /* Gradient colors */
+  --color-gradient-cyan: #06b6d4;
+  --color-gradient-blue: #3b82f6;
+  --color-gradient-purple: #8b5cf6;
+  --color-gradient-pink: #ec4899;
+  --color-gradient-amber: #f59e0b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Custom animations */
+@theme inline {
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-text-shimmer: text-shimmer 3s linear infinite;
+  --animate-spin-slow: spin 3s linear infinite;
+}
+
+/* Custom utility classes */
+@utility text-gradient {
+  background: linear-gradient(135deg, var(--color-cyan-400) 0%, var(--color-blue-400) 25%, var(--color-purple-400) 50%, #ec4899 75%, #f59e0b 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: var(--animate-text-shimmer);
+}
+
+@utility glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@utility gradient-border {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--background), var(--background)) padding-box,
+              linear-gradient(135deg, var(--color-cyan-400), var(--color-purple-400)) border-box;
+}
+
+/* Keyframes for animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px -10px var(--color-cyan-400);
+  }
+  to {
+    box-shadow: 0 0 20px -10px var(--color-purple-400);
+  }
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-cyan-400), var(--color-purple-400));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0891b2, #7c3aed);
+}
+
+/* Selection styles */
+::selection {
+  background: var(--color-cyan-400);
+  color: var(--background);
+}
+
+::-moz-selection {
+  background: var(--color-cyan-400);
+  color: var(--background);
+}
+
+/* Remove blue outline but keep accessibility */
+*:focus {
+  outline: none;
+}
+
+/* Better focus styles for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-cyan-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove tap highlight on mobile */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better mobile touch targets */
+@media (max-width: 768px) {
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Prevent body scroll when mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Smooth transitions for mobile menu */
+.mobile-menu-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.mobile-menu-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Better hover states for mobile */
+@media (hover: none) {
+  button:hover,
+  a:hover {
+    transform: none !important;
+  }
+  
+  button:active,
+  a:active {
+    transform: scale(0.95) !important;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    background: linear-gradient(135deg, var(--color-cyan-400), var(--color-purple-400));
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    color: var(--color-cyan-400);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: rgba(34, 211, 238, 0.1);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(34, 211, 238, 0.2);
+    border-color: var(--color-cyan-400);
+  }
+  
+  .card-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+  }
+  
+  .card-glass:hover {
+    border-color: rgba(34, 211, 238, 0.4);
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
+  }
+  
+  .text-gradient-rainbow {
+    background: linear-gradient(135deg, var(--color-cyan-400) 0%, var(--color-blue-400) 25%, var(--color-purple-400) 50%, #ec4899 75%, #f59e0b 100%);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer 3s linear infinite;
+  }
+}
+
+/* Utility classes for the new Tailwind v4 */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.animate-text-shimmer {
+  animation: text-shimmer 3s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+/* Responsive text sizes */
+@media (max-width: 768px) {
+  .text-responsive {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Loading animation */
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--color-cyan-400);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Custom gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, 
+    rgba(6, 182, 212, 0.1) 0%, 
+    rgba(139, 92, 246, 0.1) 50%, 
+    rgba(236, 72, 153, 0.1) 100%
+  );
+}
+
+.gradient-bg-2 {
+  background: linear-gradient(135deg, 
+    rgba(6, 182, 212, 0.05) 0%, 
+    rgba(59, 130, 246, 0.05) 50%, 
+    rgba(139, 92, 246, 0.05) 100%
+  );
+}
+
+/* Smooth transitions for all interactive elements */
+button,
+a,
+input,
+textarea {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom focus for form elements */
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-cyan-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Custom selection color for code blocks */
+pre::selection,
+code::selection {
+  background: var(--color-purple-400);
+  color: white;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
