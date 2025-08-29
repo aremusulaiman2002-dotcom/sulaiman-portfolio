@@ -147,4 +147,4 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
       </motion.div>
     </motion.div>
   );
-}
+}// Build fix: $(date) 
