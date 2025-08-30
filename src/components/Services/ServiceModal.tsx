@@ -266,7 +266,7 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
                       </>
                     ) : (
                       <>
-                        Get Free Quote
+                        Get Quote
                         <ArrowRight size={18} />
                       </>
                     )}
