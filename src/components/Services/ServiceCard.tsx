@@ -1,4 +1,3 @@
-// src/components/Services/ServiceCard.tsx
 'use client';
 import { motion } from 'framer-motion';
 import { Check, Star, Zap, Clock, ArrowRight } from 'lucide-react';
@@ -14,12 +13,16 @@ interface ServiceCardProps {
 
 // Create the Service type that ServiceModal expects
 interface ModalService {
-  id: number; // CHANGED TO number
+  id: number;
   title: string;
   description: string;
   emoji: string;
   features: string[];
-  price: string;
+  price: {
+    basic: string;
+    professional: string;
+    enterprise: string;
+  };
   deliveryTime: string;
   mostPopular: boolean;
 }
@@ -30,12 +33,16 @@ export default function ServiceCard({ serviceItem, category, isPopular = false }
 
   // Convert ServiceItem to the format expected by ServiceModal
   const modalService: ModalService = {
-    id: Math.floor(Math.random() * 1000), // CHANGED TO number
+    id: Math.floor(Math.random() * 1000),
     title: serviceItem.name,
     description: serviceItem.details,
     emoji: category.icon,
     features: serviceItem.details.split(', '),
-    price: serviceItem.price,
+    price: {
+      basic: serviceItem.price,
+      professional: serviceItem.price,
+      enterprise: serviceItem.price
+    },
     deliveryTime: "2-4 weeks",
     mostPopular: isPopular
   };
@@ -81,7 +88,7 @@ export default function ServiceCard({ serviceItem, category, isPopular = false }
           className="w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
         >
           <Zap size={16} />
-          Get Free Quote
+          Get Quote
           <ArrowRight size={16} />
         </motion.button>
       </motion.div>
