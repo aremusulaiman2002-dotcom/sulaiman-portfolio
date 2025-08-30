@@ -1,9 +1,10 @@
-// src/components/Services/ServicesSection.tsx
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Star, Zap, Shield, Clock, ArrowRight } from 'lucide-react';
 import { services, packageDeals, valueProps } from '@/data/services';
+import ServiceCard from './ServiceCard';
+import PackageCard from './PackageCard';
 
 const ServicesSection = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
@@ -49,23 +50,12 @@ const ServicesSection = () => {
                 
                 <div className="space-y-4">
                   {service.items.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all group-hover/item"
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <h5 className="font-semibold text-cyan-300 group-hover/item:text-cyan-400 transition-colors">
-                          {item.name}
-                        </h5>
-                        <span className="text-lg font-bold text-white">{item.price}</span>
-                      </div>
-                      <p className="text-gray-400 text-sm group-hover/item:text-gray-300 transition-colors">
-                        {item.details}
-                      </p>
-                    </motion.div>
+                    <ServiceCard
+                      key={`${service.category}-${index}`}
+                      serviceItem={item}
+                      category={service}
+                      isPopular={item.mostPopular}
+                    />
                   ))}
                 </div>
               </motion.div>
@@ -82,69 +72,11 @@ const ServicesSection = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {packageDeals.map((pkg, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className={`relative rounded-2xl p-8 border-2 backdrop-blur-md transition-all hover:scale-105 cursor-pointer ${
-                  pkg.popular 
-                    ? 'border-cyan-500 bg-gradient-to-b from-cyan-900/20 to-slate-900 shadow-2xl shadow-cyan-500/20' 
-                    : 'border-cyan-500/30 bg-slate-800/50 hover:border-cyan-500/60'
-                }`}
-                onClick={() => setSelectedPackage(pkg.name)}
-              >
-                {pkg.popular && (
-                  <motion.div
-                    initial={{ scale: 0, y: -20 }}
-                    whileInView={{ scale: 1, y: 0 }}
-                    className="absolute -top-3 left-1/2 transform -translate-x-1/2"
-                  >
-                    <span className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center shadow-lg">
-                      <Star size={14} className="mr-1 fill-current" /> MOST POPULAR
-                    </span>
-                  </motion.div>
-                )}
-                
-                <div className="text-center mb-8">
-                  <h4 className="text-2xl font-bold text-white mb-2">{pkg.name}</h4>
-                  <div className="flex items-baseline justify-center">
-                    <span className="text-4xl font-bold text-cyan-400">{pkg.price}</span>
-                    {pkg.name !== "Enterprise Package" && (
-                      <span className="text-gray-400 ml-2 text-sm">one-time</span>
-                    )}
-                  </div>
-                  <p className="text-gray-400 mt-2 text-sm">{pkg.description}</p>
-                </div>
-                
-                <ul className="space-y-3 mb-8">
-                  {pkg.features.map((feature, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="flex items-start text-sm"
-                    >
-                      <Check size={16} className="text-cyan-400 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-300">{feature}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-                
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center transition-all ${
-                    pkg.popular
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-2xl hover:shadow-cyan-500/30'
-                      : 'bg-slate-700 text-cyan-400 hover:bg-slate-600 hover:text-white'
-                  }`}
-                >
-                  Select Package <ArrowRight size={18} className="ml-2" />
-                </motion.button>
-              </motion.div>
+              <PackageCard
+                key={pkg.id}
+                packageDeal={pkg}
+                allPackages={packageDeals}
+              />
             ))}
           </div>
         </div>

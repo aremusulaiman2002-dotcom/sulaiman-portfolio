@@ -1,21 +1,36 @@
-// src/utils/emailService.ts
 import emailjs from 'emailjs-com';
 
-const SERVICE_ID = 'your_service_id';
-const TEMPLATE_ID = 'your_template_id';
-const PUBLIC_KEY = 'your_public_key';
+const EMAILJS_CONFIG = {
+  SERVICE_ID: 'service_7mduaza',
+  TEMPLATE_ID: 'template_4k8l2ji', 
+  PUBLIC_KEY: 'lFnpe0Ko4s_TW4Ims'
+};
 
-export const sendEmail = async (formData: any): Promise<boolean> => {
+export const sendEmail = async (formData: {
+  name: string;        // Changed from from_name
+  email: string;       // Changed from from_email
+  message: string;
+  subject?: string;    // Added subject
+  to_email?: string;
+}) => {
   try {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    
     const result = await emailjs.send(
-      SERVICE_ID,
-      TEMPLATE_ID,
-      formData,
-      PUBLIC_KEY
+      EMAILJS_CONFIG.SERVICE_ID,
+      EMAILJS_CONFIG.TEMPLATE_ID,
+      {
+        name: formData.name,        // Make sure these match
+        email: formData.email,      // your EmailJS template
+        message: formData.message,
+        subject: formData.subject || 'New message from portfolio',
+        to_email: formData.to_email || 'aremusulaiman2002@gmail.com'
+      }
     );
-    return result.status === 200;
+    
+    return { success: true, result };
   } catch (error) {
     console.error('Email sending failed:', error);
-    return false;
+    return { success: false, error };
   }
 };

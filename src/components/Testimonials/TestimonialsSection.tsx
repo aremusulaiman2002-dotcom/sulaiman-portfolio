@@ -12,11 +12,11 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "CEO at TechStart",
-      content: "Sulaiman delivered an exceptional e-commerce platform that exceeded our expectations. His attention to detail and technical expertise are unmatched.",
+      name: "Olaogun Michael",
+      role: "Programs Manager",
+      content: "I am deeply impressed by the quality of services being offered by Sulaiman. Since joining my team, he has revolutionized the visibility of our company.",
       rating: 5,
-      project: "E-Commerce Website"
+      project: "Research Enterprise System (Website)"
     },
     {
       name: "Michael Chen",

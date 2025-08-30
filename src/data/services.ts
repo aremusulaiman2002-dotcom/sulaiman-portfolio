@@ -20,7 +20,7 @@ export interface ServiceItem {
   name: string;
   price: string;
   details: string;
-  mostPopular?: boolean; // Make popular flag explicit in source data
+  mostPopular?: boolean;
 }
 
 export interface ServiceCategory {
@@ -30,6 +30,7 @@ export interface ServiceCategory {
 }
 
 export interface PackageDeal {
+  id: string; // ADDED ID FIELD
   name: string;
   price: string;
   description: string;
@@ -43,7 +44,7 @@ export interface ValueProposition {
   description: string;
 }
 
-// Raw service data - define this first to avoid circular references
+// Raw service data
 export const services: ServiceCategory[] = [
   {
     category: "Web Development",
@@ -59,7 +60,7 @@ export const services: ServiceCategory[] = [
         name: "E-commerce Store", 
         price: "$2,499", 
         details: "Product catalog, payment integration, inventory management, admin dashboard",
-        mostPopular: true
+        mostPopular: false
       },
       { 
         name: "Web Application", 
@@ -89,7 +90,7 @@ export const services: ServiceCategory[] = [
         name: "Brand Identity", 
         price: "$899", 
         details: "Logo, color palette, typography, brand guidelines, social media kit",
-        mostPopular: true
+        mostPopular: false
       },
       { 
         name: "Marketing Materials", 
@@ -119,7 +120,7 @@ export const services: ServiceCategory[] = [
         name: "System Maintenance", 
         price: "$299/mo", 
         details: "Regular updates, security monitoring, backup management, performance optimization",
-        mostPopular: true
+        mostPopular: false
       },
       { 
         name: "Tech Support", 
@@ -137,23 +138,20 @@ export const mapServiceItemToService = (
   item: ServiceItem,
   id: number
 ): Service => {
-  // Extract numeric value from price string for calculations
   const priceMatch = item.price.match(/\d+/);
   const basePrice = priceMatch ? parseInt(priceMatch[0]) : 0;
   
-  // Handle different price formats (hourly, monthly, one-time)
   let basicPrice = item.price;
   let professionalPrice = "";
   let enterprisePrice = "";
   
   if (item.price.includes('/hr')) {
-    professionalPrice = `$${Math.round(basePrice * 0.9 * 10)}/10hrs`; // Volume discount
-    enterprisePrice = `$${Math.round(basePrice * 0.8 * 40)}/40hrs`; // Larger volume discount
+    professionalPrice = `$${Math.round(basePrice * 0.9 * 10)}/10hrs`;
+    enterprisePrice = `$${Math.round(basePrice * 0.8 * 40)}/40hrs`;
   } else if (item.price.includes('/mo')) {
-    professionalPrice = `$${Math.round(basePrice * 0.9 * 12)}/year`; // Annual discount
-    enterprisePrice = `$${Math.round(basePrice * 0.8 * 12)}/year`; // Larger annual discount
+    professionalPrice = `$${Math.round(basePrice * 0.9 * 12)}/year`;
+    enterprisePrice = `$${Math.round(basePrice * 0.8 * 12)}/year`;
   } else {
-    // One-time payment services
     professionalPrice = `$${Math.round(basePrice * 1.5)}`;
     enterprisePrice = `$${Math.round(basePrice * 2.5)}`;
   }
@@ -184,9 +182,10 @@ export const sampleServices: Service[] = services.flatMap(category =>
   })
 );
 
-// Package deals data
+// Package deals data - UPDATED WITH ID FIELDS
 export const packageDeals: PackageDeal[] = [
   {
+    id: 'starter-package',
     name: "Starter Package",
     price: "$1,799",
     description: "Perfect for small businesses getting started online",
@@ -200,6 +199,7 @@ export const packageDeals: PackageDeal[] = [
     popular: false
   },
   {
+    id: 'business-package',
     name: "Business Package",
     price: "$3,999",
     description: "Comprehensive solution for growing businesses",
@@ -216,6 +216,7 @@ export const packageDeals: PackageDeal[] = [
     popular: true
   },
   {
+    id: 'enterprise-package',
     name: "Enterprise Package",
     price: "$7,499",
     description: "End-to-end solution for established businesses",
@@ -255,7 +256,7 @@ export const valueProps: ValueProposition[] = [
   }
 ];
 
-// Utility functions for working with services
+// Utility functions
 export const getServiceById = (id: number): Service | undefined => {
   return sampleServices.find(service => service.id === id);
 };
