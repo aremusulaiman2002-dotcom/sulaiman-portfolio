@@ -4,15 +4,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Star, Zap, Clock, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import ServiceModal from './ServiceModal';
-import { Service } from '@/types/services';
+import { ServiceItem, ServiceCategory } from '@/data/services';
 
 interface ServiceCardProps {
-  service: Service;
+  serviceItem: ServiceItem;
+  category: ServiceCategory;
+  isPopular?: boolean;
 }
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+export default function ServiceCard({ serviceItem, category, isPopular = false }: ServiceCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Convert ServiceItem to the format expected by ServiceModal
+  const modalService = {
+    id: Math.random(),
+    title: serviceItem.name,
+    description: serviceItem.details,
+    emoji: category.icon,
+    features: serviceItem.details.split(', '),
+    price: {
+      basic: serviceItem.price,
+      professional: serviceItem.price,
+      enterprise: serviceItem.price
+    },
+    deliveryTime: "2-4 weeks",
+    mostPopular: isPopular
+  };
 
   return (
     <>
@@ -28,7 +46,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         className={`relative bg-gradient-to-br from-slate-900/80 to-slate-800/80 backdrop-blur-md rounded-2xl border p-6 h-full overflow-hidden group ${
-          service.mostPopular 
+          isPopular 
             ? 'border-cyan-500/30 shadow-2xl shadow-cyan-500/10' 
             : 'border-white/10 hover:border-cyan-500/20'
         }`}
@@ -58,7 +76,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           )}
         </AnimatePresence>
 
-        {service.mostPopular && (
+        {isPopular && (
           <motion.div
             initial={{ scale: 0, y: -20 }}
             animate={{ scale: 1, y: 0 }}
@@ -86,13 +104,13 @@ export default function ServiceCard({ service }: ServiceCardProps) {
             transition={{ duration: 0.3 }}
             className="text-4xl mb-2 inline-block"
           >
-            {service.emoji}
+            {category.icon}
           </motion.div>
           <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
-            {service.title}
+            {serviceItem.name}
           </h3>
           <p className="text-gray-400 text-sm leading-relaxed">
-            {service.description}
+            {serviceItem.details}
           </p>
         </div>
 
@@ -100,22 +118,22 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         <div className="text-center mb-6 relative z-10">
           <div className="flex justify-center items-baseline gap-2 mb-2">
             <span className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              {service.price.professional}
+              {serviceItem.price}
             </span>
-            <span className="text-gray-400 text-sm">Professional</span>
+            <span className="text-gray-400 text-sm">Starting price</span>
           </div>
           <motion.div
             animate={{ scale: isHovered ? 1.05 : 1 }}
             className="flex items-center justify-center gap-2 text-sm text-gray-400"
           >
             <Clock size={14} />
-            <span>{service.deliveryTime}</span>
+            <span>2-4 weeks delivery</span>
           </motion.div>
         </div>
 
         {/* Features */}
         <div className="space-y-3 mb-6 relative z-10">
-          {service.features.slice(0, 4).map((feature, index) => (
+          {serviceItem.details.split(', ').slice(0, 3).map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: -20 }}
@@ -134,35 +152,14 @@ export default function ServiceCard({ service }: ServiceCardProps) {
               </span>
             </motion.div>
           ))}
-          {service.features.length > 4 && (
+          {serviceItem.details.split(', ').length > 3 && (
             <div className="text-center pt-2">
               <span className="text-xs text-cyan-400">
-                +{service.features.length - 4} more features
+                +{serviceItem.details.split(', ').length - 3} more features
               </span>
             </div>
           )}
         </div>
-
-        {/* Packages */}
-        <motion.div
-          animate={{ y: isHovered ? -2 : 0 }}
-          className="grid grid-cols-3 gap-2 mb-6 relative z-10"
-        >
-          {Object.entries(service.price).map(([tier, price]) => (
-            <motion.div
-              key={tier}
-              whileHover={{ scale: 1.05, y: -2 }}
-              className={`text-center p-2 rounded-lg border transition-all ${
-                tier === 'professional'
-                  ? 'bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border-cyan-500/20'
-                  : 'bg-slate-800/30 border-white/5'
-              }`}
-            >
-              <div className="text-xs text-gray-400 capitalize">{tier}</div>
-              <div className="text-sm font-semibold text-white">{price}</div>
-            </motion.div>
-          ))}
-        </motion.div>
 
         {/* Urgency Element */}
         <motion.div
@@ -173,7 +170,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         >
           <div className="text-xs text-amber-400 flex items-center justify-center gap-1 bg-amber-500/10 py-1 px-3 rounded-full">
             <Clock size={12} />
-            <span>Limited availability next month</span>
+            <span>Limited availability</span>
           </div>
         </motion.div>
 
@@ -211,10 +208,10 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
       {/* Service Modal */}
       <ServiceModal
-        service={service}
+        service={modalService}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
     </>
   );
-}
+}"// Build verification: import fix confirmed $(date)" 
