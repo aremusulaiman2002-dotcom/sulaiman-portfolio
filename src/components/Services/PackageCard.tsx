@@ -14,6 +14,17 @@ export default function PackageCard({ packageDeal, allPackages }: PackageCardPro
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Safety checks
+  if (!packageDeal) {
+    console.error('PackageCard: packageDeal prop is undefined');
+    return null;
+  }
+
+  const handleClick = () => {
+    console.log('Opening package wizard for:', packageDeal.name);
+    setIsWizardOpen(true);
+  };
+
   return (
     <>
       <motion.div
@@ -26,7 +37,7 @@ export default function PackageCard({ packageDeal, allPackages }: PackageCardPro
             ? 'border-cyan-500 bg-gradient-to-b from-cyan-900/20 to-slate-900 shadow-2xl shadow-cyan-500/20' 
             : 'border-cyan-500/30 bg-slate-800/50 hover:border-cyan-500/60'
         }`}
-        onClick={() => setIsWizardOpen(true)}
+        onClick={handleClick}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
       >
@@ -34,7 +45,7 @@ export default function PackageCard({ packageDeal, allPackages }: PackageCardPro
           <motion.div
             initial={{ scale: 0, y: -20 }}
             whileInView={{ scale: 1, y: 0 }}
-            className="absolute -top-3 left-1/2 transform -translate-x-1/2"
+            className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10"
           >
             <span className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center shadow-lg">
               <Star size={14} className="mr-1 fill-current" /> MOST POPULAR
@@ -43,16 +54,16 @@ export default function PackageCard({ packageDeal, allPackages }: PackageCardPro
         )}
         
         <div className="text-center mb-8">
-          <h4 className="text-2xl font-bold text-white mb-2">{packageDeal.name}</h4>
+          <h4 className="text-2xl font-bold text-white mb-2">{packageDeal.name || 'Package'}</h4>
           <div className="flex items-baseline justify-center">
-            <span className="text-4xl font-bold text-cyan-400">{packageDeal.price}</span>
+            <span className="text-4xl font-bold text-cyan-400">{packageDeal.price || '$0'}</span>
             <span className="text-gray-400 ml-2 text-sm">one-time</span>
           </div>
-          <p className="text-gray-400 mt-2 text-sm">{packageDeal.description}</p>
+          <p className="text-gray-400 mt-2 text-sm">{packageDeal.description || 'Package description'}</p>
         </div>
         
         <ul className="space-y-3 mb-8">
-          {packageDeal.features.map((feature, i) => (
+          {packageDeal.features?.map((feature, i) => (
             <motion.li
               key={i}
               initial={{ opacity: 0, x: -10 }}
@@ -63,7 +74,9 @@ export default function PackageCard({ packageDeal, allPackages }: PackageCardPro
               <Check size={16} className="text-cyan-400 mr-2 mt-0.5 flex-shrink-0" />
               <span className="text-gray-300">{feature}</span>
             </motion.li>
-          ))}
+          )) || (
+            <li className="text-gray-400 text-sm">No features listed</li>
+          )}
         </ul>
         
         <motion.button
