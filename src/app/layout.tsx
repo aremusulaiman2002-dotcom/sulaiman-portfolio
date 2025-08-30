@@ -1,8 +1,8 @@
-// src/app/layout.tsx (CORRECTED)
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
+import ErrorBoundary from '@/components/UI/ErrorBoundary';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="antialiased">
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
         <Analytics />
       </body>
     </html>
