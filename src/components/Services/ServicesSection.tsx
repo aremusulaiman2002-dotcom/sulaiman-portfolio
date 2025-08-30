@@ -9,6 +9,18 @@ import PackageCard from './PackageCard';
 const ServicesSection = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
+  // Add safety checks for data
+  if (!services || services.length === 0) {
+    return (
+      <section id="services" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">Services</h2>
+          <p className="text-gray-400">No services available at the moment.</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
       <div className="container mx-auto px-4">
@@ -34,7 +46,7 @@ const ServicesSection = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, categoryIndex) => (
               <motion.div
-                key={categoryIndex}
+                key={service.category || categoryIndex}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -49,7 +61,7 @@ const ServicesSection = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  {service.items.map((item, index) => (
+                  {service.items?.map((item, index) => (
                     <ServiceCard
                       key={`${service.category}-${index}`}
                       serviceItem={item}
@@ -71,7 +83,7 @@ const ServicesSection = () => {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {packageDeals.map((pkg, index) => (
+            {packageDeals?.map((pkg) => (
               <PackageCard
                 key={pkg.id}
                 packageDeal={pkg}
@@ -89,7 +101,7 @@ const ServicesSection = () => {
           className="mt-20 bg-gradient-to-r from-cyan-900/20 to-blue-900/20 rounded-2xl p-8 border border-cyan-500/30 backdrop-blur-md"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {valueProps.map((prop, index) => {
+            {valueProps?.map((prop, index) => {
               const IconComponent = prop.icon === 'Zap' ? Zap : prop.icon === 'Shield' ? Shield : Clock;
               return (
                 <motion.div
