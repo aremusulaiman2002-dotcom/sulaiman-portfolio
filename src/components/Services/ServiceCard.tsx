@@ -1,5 +1,6 @@
+// src/components/Services/ServiceCard.tsx
 'use client';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Check, Star, Zap, Clock, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import ServiceModal from './ServiceModal';
@@ -13,7 +14,7 @@ interface ServiceCardProps {
 
 // Create the Service type that ServiceModal expects
 interface ModalService {
-  id: string;
+  id: number; // CHANGED TO number
   title: string;
   description: string;
   emoji: string;
@@ -29,7 +30,7 @@ export default function ServiceCard({ serviceItem, category, isPopular = false }
 
   // Convert ServiceItem to the format expected by ServiceModal
   const modalService: ModalService = {
-    id: Math.random().toString(),
+    id: Math.floor(Math.random() * 1000), // CHANGED TO number
     title: serviceItem.name,
     description: serviceItem.details,
     emoji: category.icon,
@@ -40,6 +41,7 @@ export default function ServiceCard({ serviceItem, category, isPopular = false }
   };
 
   const handleGetStarted = () => {
+    console.log('Get Started clicked for:', serviceItem.name);
     setIsModalOpen(true);
   };
 
@@ -70,10 +72,22 @@ export default function ServiceCard({ serviceItem, category, isPopular = false }
             <span className="text-xs text-yellow-400">Most Popular</span>
           </div>
         )}
+
+        {/* Get Free Quote Button */}
+        <motion.button
+          onClick={handleGetStarted}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+        >
+          <Zap size={16} />
+          Get Free Quote
+          <ArrowRight size={16} />
+        </motion.button>
       </motion.div>
 
       <ServiceModal
-        service={modalService} // FIXED: Now matches the expected type
+        service={modalService}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
