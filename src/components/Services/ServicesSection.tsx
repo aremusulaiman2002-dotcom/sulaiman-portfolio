@@ -2,13 +2,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Shield, Clock } from 'lucide-react';
-import { services, packageDeals, valueProps, ServiceItem } from '@/data/services'; // IMPORT ServiceItem
+import { services, packageDeals, valueProps, ServiceItem } from '@/data/services';
 import ServiceCard from './ServiceCard';
 import PackageCard from './PackageCard';
 
 const ServicesSection = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
+  // Add null check for services
   if (!services || services.length === 0) {
     return (
       <section id="services" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
@@ -60,7 +61,8 @@ const ServicesSection = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  {service.items?.map((item: ServiceItem, index) => ( // EXPLICITLY TYPE THE ITEM
+                  {/* FIXED: Added null check and proper property name */}
+                  {service.items && service.items.map((item: ServiceItem, index) => (
                     <ServiceCard
                       key={`${service.category}-${index}`}
                       serviceItem={item}
@@ -82,7 +84,7 @@ const ServicesSection = () => {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {packageDeals?.map((pkg) => (
+            {packageDeals && packageDeals.map((pkg) => (
               <PackageCard
                 key={pkg.id}
                 packageDeal={pkg}
@@ -100,7 +102,7 @@ const ServicesSection = () => {
           className="mt-20 bg-gradient-to-r from-cyan-900/20 to-blue-900/20 rounded-2xl p-8 border border-cyan-500/30 backdrop-blur-md"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {valueProps?.map((prop, index) => {
+            {valueProps && valueProps.map((prop, index) => {
               const IconComponent = prop.icon === 'Zap' ? Zap : prop.icon === 'Shield' ? Shield : Clock;
               return (
                 <motion.div
