@@ -1,15 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Star, Zap, Shield, Clock, ArrowRight } from 'lucide-react';
-import { services, packageDeals, valueProps } from '@/data/services';
+import { Zap, Shield, Clock } from 'lucide-react';
+import { services, packageDeals, valueProps, ServiceItem } from '@/data/services'; // IMPORT ServiceItem
 import ServiceCard from './ServiceCard';
 import PackageCard from './PackageCard';
 
 const ServicesSection = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
-  // Add safety checks for data
   if (!services || services.length === 0) {
     return (
       <section id="services" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
@@ -61,12 +60,12 @@ const ServicesSection = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  {service.items?.map((item, index) => (
+                  {service.items?.map((item: ServiceItem, index) => ( // EXPLICITLY TYPE THE ITEM
                     <ServiceCard
                       key={`${service.category}-${index}`}
                       serviceItem={item}
                       category={service}
-                      isPopular={item.mostPopular}
+                      isPopular={item.mostPopular || false}
                     />
                   ))}
                 </div>
