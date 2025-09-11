@@ -65,7 +65,7 @@ const ServicesSection = () => {
                   {service.items && service.items.map((item: ServiceItem, index) => (
                     <ServiceCard
                       key={`${service.category}-${index}`}
-                      serviceItem={item}
+                      service={item}
                       category={service}
                       isPopular={item.mostPopular || false}
                     />
