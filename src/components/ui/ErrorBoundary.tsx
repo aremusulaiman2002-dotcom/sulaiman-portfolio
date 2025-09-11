@@ -1,10 +1,8 @@
-// In src/components/UI/ErrorBoundary.tsx
 'use client';
 import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
-  fallback?: ReactNode;
 }
 
 interface State {
@@ -27,16 +25,28 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-4 bg-red-100 border border-red-400 rounded">
-          <h2 className="text-red-800 font-bold">Something went wrong.</h2>
-          <p className="text-red-700">{this.state.error?.message}</p>
-          <button
-            className="mt-2 px-4 py-2 bg-red-600 text-white rounded"
-            onClick={() => this.setState({ hasError: false, error: undefined })}
-          >
-            Try again
-          </button>
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
+          <div className="text-center max-w-md">
+            <h2 className="text-2xl font-bold text-white mb-4">Something went wrong</h2>
+            <p className="text-gray-400 mb-6">
+              We apologize for the inconvenience. Please try refreshing the page.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Refresh Page
+            </button>
+            {this.state.error && (
+              <details className="mt-4 text-left">
+                <summary className="text-cyan-400 cursor-pointer">Error Details</summary>
+                <pre className="text-red-400 text-xs mt-2 p-2 bg-slate-800 rounded">
+                  {this.state.error.toString()}
+                </pre>
+              </details>
+            )}
+          </div>
         </div>
       );
     }

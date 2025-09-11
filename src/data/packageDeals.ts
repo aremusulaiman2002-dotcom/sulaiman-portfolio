@@ -1,4 +1,5 @@
-import { PackageDeal } from './services';
+// src/data/packageDeals.ts
+import { PackageDeal } from './services'; // CHANGED FROM '@/types/package'
 
 export const packageDeals: PackageDeal[] = [
   {
