@@ -5,13 +5,14 @@ export interface Service {
   id: number;
   title: string;
   description: string;
+  emoji: string;
   features: string[];
   price: {
     basic: string;
     professional: string;
     enterprise: string;
   };
-  deliveryTime: string;
+  deliveryTime: string; 
   mostPopular: boolean;
 }
 
