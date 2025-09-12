@@ -5,7 +5,6 @@ export interface Service {
   id: number;
   title: string;
   description: string;
-  emoji: string;
   features: string[];
   price: {
     basic: string;

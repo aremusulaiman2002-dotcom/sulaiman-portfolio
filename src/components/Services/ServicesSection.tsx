@@ -2,14 +2,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Shield, Clock } from 'lucide-react';
-import { services, packageDeals, valueProps, ServiceItem } from '@/data/services';
+import { services, packageDeals, valueProps, ServiceItem, mapServiceItemToService } from '@/data/services';
 import ServiceCard from './ServiceCard';
 import PackageCard from './PackageCard';
 
 const ServicesSection = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
-  // Add null check for services
   if (!services || services.length === 0) {
     return (
       <section id="services" className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
@@ -61,15 +60,19 @@ const ServicesSection = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  {/* FIXED: Added null check and proper property name */}
-                  {service.items && service.items.map((item: ServiceItem, index) => (
-                    <ServiceCard
-                      key={`${service.category}-${index}`}
-                      service={item}
-                      category={service}
-                      isPopular={item.mostPopular || false}
-                    />
-                  ))}
+                  {service.items && service.items.map((item: ServiceItem, index) => {
+                    // Convert ServiceItem to Service using the mapper function
+                    const mappedService = mapServiceItemToService(service, item, index);
+                    
+                    return (
+                      <ServiceCard
+                        key={`${service.category}-${index}`}
+                        service={mappedService} // Pass the converted Service object
+                        category={service}
+                        isPopular={mappedService.mostPopular}
+                      />
+                    );
+                  })}
                 </div>
               </motion.div>
             ))}
