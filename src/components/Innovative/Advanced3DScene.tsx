@@ -1,21 +1,31 @@
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Sphere, Box, Float, Text, Environment, Lightformer, useGLTF, useTexture } from '@react-three/drei';
+import { OrbitControls, Sphere, Box, Float, Text } from '@react-three/drei';
 import { useRef, Suspense } from 'react';
 import * as THREE from 'three';
 
-// Loading component
+// Simple Loading Component
 function Loader() {
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400 mx-auto"></div>
-      <p className="mt-4 text-cyan-400">Loading amazing 3D experience...</p>
+      <p className="mt-4 text-cyan-400">Loading 3D scene...</p>
     </div>
   );
 }
 
-// Animated Floating Models
+// Custom Environment without HDR
+function CustomEnvironment() {
+  const { scene } = useThree();
+  
+  // Set a simple background color instead of HDR
+  scene.background = new THREE.Color(0x000011);
+  
+  return null;
+}
+
+// Floating Models Component
 function FloatingModels() {
   const groupRef = useRef<THREE.Group>(null);
   
@@ -36,7 +46,6 @@ function FloatingModels() {
             emissive="#083344"
             roughness={0.2}
             metalness={0.8}
-            envMapIntensity={2}
           />
         </Sphere>
       </Float>
@@ -71,7 +80,7 @@ function FloatingModels() {
   );
 }
 
-// Interactive Text
+// Text Component
 function ThreeDText() {
   return (
     <Text
@@ -80,7 +89,6 @@ function ThreeDText() {
       color="#ffffff"
       anchorX="center"
       anchorY="middle"
-      font="/fonts/inter-regular.woff"
     >
       Sulaiman Aremu
       <meshStandardMaterial
@@ -92,30 +100,36 @@ function ThreeDText() {
   );
 }
 
-// Main 3D Scene Component
+// Main Scene Component
 function Scene() {
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   
   useFrame((state) => {
-    // Gentle camera movement
     camera.position.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.5;
     camera.position.z = 10 + Math.cos(state.clock.elapsedTime * 0.3) * 0.3;
+    camera.lookAt(0, 0, 0);
   });
 
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.5} />
-      <directionalLight
-        position={[10, 10, 5]}
-        intensity={2}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-      />
-      <pointLight position={[-10, -10, -10]} intensity={1} color="#0ea5e9" />
+      {/* Custom environment without HDR */}
+      <CustomEnvironment />
       
-      {/* Environment */}
-      <Environment preset="city" />
+      {/* Enhanced Lighting to compensate for no environment map */}
+      <ambientLight intensity={0.6} />
+      <directionalLight 
+        position={[10, 10, 5]} 
+        intensity={1.5} 
+        color="#ffffff"
+        castShadow
+      />
+      <pointLight position={[-10, -10, -10]} intensity={0.8} color="#0ea5e9" />
+      <pointLight position={[5, 5, 5]} intensity={0.5} color="#8b5cf6" />
+      <hemisphereLight
+        intensity={0.3}
+        color="#0ea5e9"
+        groundColor="#083344"
+      />
       
       {/* Models */}
       <FloatingModels />
@@ -140,8 +154,11 @@ export default function Advanced3DScene() {
     <div className="fixed top-0 left-0 w-full h-full -z-10">
       <Canvas
         camera={{ position: [0, 0, 10], fov: 50 }}
-        gl={{ antialias: true, alpha: true }}
-        shadows
+        gl={{ 
+          antialias: true, 
+          alpha: true,
+          powerPreference: "high-performance"
+        }}
       >
         <Suspense fallback={null}>
           <Scene />

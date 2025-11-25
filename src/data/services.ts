@@ -52,25 +52,25 @@ export const services: ServiceCategory[] = [
     items: [
       { 
         name: "Business Website", 
-        price: "$999", 
+        price: "₦449,999", 
         details: "5 pages, responsive design, SEO basics, contact form, 1-year hosting",
         mostPopular: false
       },
       { 
         name: "E-commerce Store", 
-        price: "$2,499", 
+        price: "₦1,499,999", 
         details: "Product catalog, payment integration, inventory management, admin dashboard",
         mostPopular: false
       },
       { 
         name: "Web Application", 
-        price: "$4,999+", 
+        price: "₦2,499,999+", 
         details: "Custom functionality, user accounts, database integration, API development",
         mostPopular: false
       },
       { 
         name: "Website Redesign", 
-        price: "$1,499", 
+        price: "₦799,999", 
         details: "Modern redesign, performance optimization, mobile responsiveness",
         mostPopular: false
       }
@@ -82,25 +82,25 @@ export const services: ServiceCategory[] = [
     items: [
       { 
         name: "Logo Design", 
-        price: "$299", 
+        price: "₦99,999", 
         details: "3 concepts, unlimited revisions, all file formats, color variations",
         mostPopular: false
       },
       { 
         name: "Brand Identity", 
-        price: "$899", 
+        price: "₦199,999", 
         details: "Logo, color palette, typography, brand guidelines, social media kit",
         mostPopular: false
       },
       { 
         name: "Marketing Materials", 
-        price: "$499", 
+        price: "₦249,999", 
         details: "Social media graphics, brochures, business cards, email templates",
         mostPopular: false
       },
       { 
         name: "UI/UX Design", 
-        price: "$1,299", 
+        price: "₦999,999", 
         details: "User research, wireframing, prototyping, design system",
         mostPopular: false
       }
@@ -112,19 +112,19 @@ export const services: ServiceCategory[] = [
     items: [
       { 
         name: "IT Consultation", 
-        price: "$150/hr", 
+        price: "₦49,999/hr", 
         details: "Technology assessment, strategy planning, implementation guidance",
         mostPopular: false
       },
       { 
         name: "System Maintenance", 
-        price: "$299/mo", 
+        price: "₦249,999/mo", 
         details: "Regular updates, security monitoring, backup management, performance optimization",
         mostPopular: false
       },
       { 
         name: "Tech Support", 
-        price: "$99/mo", 
+        price: "₦99,999/mo", 
         details: "24/7 assistance, remote troubleshooting, priority response, documentation",
         mostPopular: false
       },
@@ -187,7 +187,7 @@ export const packageDeals: PackageDeal[] = [
   {
     id: 'starter-package',
     name: "Starter Package",
-    price: "$1,799",
+    price: "₦1,499,999",
     description: "Perfect for small businesses getting started online",
     features: [
       "5-page Business Website",
@@ -201,7 +201,7 @@ export const packageDeals: PackageDeal[] = [
   {
     id: 'business-package',
     name: "Business Package",
-    price: "$3,999",
+    price: "₦2,999,999",
     description: "Comprehensive solution for growing businesses",
     features: [
       "10-page Business Website",
@@ -218,7 +218,7 @@ export const packageDeals: PackageDeal[] = [
   {
     id: 'enterprise-package',
     name: "Enterprise Package",
-    price: "$7,499",
+    price: "₦4,999,999",
     description: "End-to-end solution for established businesses",
     features: [
       "Custom Web Application",
