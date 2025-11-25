@@ -15,7 +15,6 @@ import Footer from '@/components/Footer/Footer';
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Advanced3DScene />
       <Navigation />
       
       <section id="home">
