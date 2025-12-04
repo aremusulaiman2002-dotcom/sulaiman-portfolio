@@ -36,6 +36,12 @@
   --color-gradient-purple: #8b5cf6;
   --color-gradient-pink: #ec4899;
   --color-gradient-amber: #f59e0b;
+  
+  /* Add animations to theme */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-text-shimmer: text-shimmer 3s linear infinite;
+  --animate-spin-slow: spin 3s linear infinite;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -49,14 +55,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-}
-
-/* Custom animations */
-@theme inline {
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-glow: glow 2s ease-in-out infinite alternate;
-  --animate-text-shimmer: text-shimmer 3s linear infinite;
-  --animate-spin-slow: spin 3s linear infinite;
 }
 
 /* Custom utility classes */
@@ -224,62 +222,62 @@ body.menu-open {
   }
 }
 
-/* Custom component styles */
-@layer components {
-  .btn-primary {
-    background: linear-gradient(135deg, var(--color-cyan-400), var(--color-purple-400));
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-primary:hover {
-    box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
-    transform: translateY(-2px);
-  }
-  
-  .btn-secondary {
-    border: 1px solid rgba(34, 211, 238, 0.3);
-    color: var(--color-cyan-400);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    background: rgba(34, 211, 238, 0.1);
-  }
-  
-  .btn-secondary:hover {
-    background: rgba(34, 211, 238, 0.2);
-    border-color: var(--color-cyan-400);
-  }
-  
-  .card-glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease;
-  }
-  
-  .card-glass:hover {
-    border-color: rgba(34, 211, 238, 0.4);
-    box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
-  }
-  
-  .text-gradient-rainbow {
-    background: linear-gradient(135deg, var(--color-cyan-400) 0%, var(--color-blue-400) 25%, var(--color-purple-400) 50%, #ec4899 75%, #f59e0b 100%);
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: text-shimmer 3s linear infinite;
-  }
+/* Custom component styles - Convert @layer to @utility or regular classes */
+/* Remove @layer components and convert to @utility or regular classes */
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-cyan-400), var(--color-purple-400));
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-/* Utility classes for the new Tailwind v4 */
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: var(--color-cyan-400);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background: rgba(34, 211, 238, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(34, 211, 238, 0.2);
+  border-color: var(--color-cyan-400);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
+}
+
+.text-gradient-rainbow {
+  background: linear-gradient(135deg, var(--color-cyan-400) 0%, var(--color-blue-400) 25%, var(--color-purple-400) 50%, #ec4899 75%, #f59e0b 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 3s linear infinite;
+}
+
+/* Animation classes */
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
