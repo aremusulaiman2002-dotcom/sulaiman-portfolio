@@ -1,4 +1,4 @@
-// src/components/Navigation/Navigation.tsx (UPDATED)
+// src/components/Navigation/Navigation.tsx (SMOOTHER SCROLL)
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,7 +7,6 @@ import {
   X, 
   Code2, 
   Sparkles, 
-  Phone, 
   Home, 
   Zap, 
   Briefcase, 
@@ -61,10 +60,57 @@ const Navigation = () => {
     { name: 'Contact', href: '#contact', icon: <Mail size={18} /> },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: 'smooth' });
-    setIsOpen(false);
+  // Custom smooth scroll function with slower speed
+  const smoothScrollTo = (targetPosition: number, duration: number = 1500) => {
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime: number | null = null;
+
+    const animation = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    };
+
+    // Easing function for smooth acceleration and deceleration
+    const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
+      t /= d / 2;
+      if (t < 1) return c / 2 * t * t + b;
+      t--;
+      return -c / 2 * (t * (t - 2) - 1) + b;
+    };
+
+    requestAnimationFrame(animation);
+  };
+
+  const scrollToSection = async (href: string) => {
+    // Close menu immediately for mobile
+    if (isMobile) {
+      setIsOpen(false);
+      // Wait for menu animation to complete and DOM to update
+      await new Promise(resolve => setTimeout(resolve, 350));
+    }
+    
+    try {
+      const element = document.querySelector(href);
+      if (!element) {
+        console.error(`Element not found: ${href}`);
+        return;
+      }
+      
+      const elementRect = element.getBoundingClientRect();
+      const absoluteElementTop = elementRect.top + window.pageYOffset;
+      const offset = 80; // Height of your fixed navbar
+      const targetPosition = absoluteElementTop - offset;
+      
+      // Use custom smooth scroll instead of native smooth scroll
+      smoothScrollTo(targetPosition, 1200); // 1200ms = 1.2 seconds duration
+      
+    } catch (error) {
+      console.error('Error scrolling to section:', error);
+    }
   };
 
   return (
